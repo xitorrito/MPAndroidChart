@@ -1,6 +1,7 @@
 
 package com.github.mikephil.charting.data;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.ParcelFormatException;
@@ -16,11 +17,12 @@ import com.github.mikephil.charting.utils.Utils;
  */
 public class Entry extends BaseEntry implements Parcelable {
 
+    private Bitmap bitmap;
     /** the x value */
     private float x = 0f;
+    private String urlImage;
 
     public Entry() {
-
     }
 
     /**
@@ -32,6 +34,20 @@ public class Entry extends BaseEntry implements Parcelable {
     public Entry(float x, float y) {
         super(y);
         this.x = x;
+    }
+
+    public Entry(float x, float y, Bitmap bitmap) {
+        super(y);
+        this.x = x;
+        this.bitmap=bitmap;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     /**
@@ -97,6 +113,14 @@ public class Entry extends BaseEntry implements Parcelable {
     public Entry copy() {
         Entry e = new Entry(x, getY(), getData());
         return e;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     /**

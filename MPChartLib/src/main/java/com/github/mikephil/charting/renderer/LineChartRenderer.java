@@ -1,6 +1,7 @@
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -371,6 +372,7 @@ public class LineChartRenderer extends LineRadarRenderer {
                 mRenderPaint.setColor(dataSet.getColor(j));
 
                 canvas.drawLines(mLineBuffer, 0, pointsPerEntryPair * 2, mRenderPaint);
+
             }
 
         } else { // only one color per dataset
@@ -419,6 +421,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         }
 
         mRenderPaint.setPathEffect(null);
+
     }
 
     protected Path mGenerateFilledPathBuffer = new Path();
@@ -568,6 +571,10 @@ public class LineChartRenderer extends LineRadarRenderer {
                         drawValue(c, dataSet.getValueFormatter(), entry.getY(), entry, i, x,
                                 y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
+
+//                    if(dataSet.getPersistentMarkers()!=null){
+//                        drawPersistentMarkers(c, entry.getY(), entry, i, x, y -valOffset);
+//                    }
 
                     if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
 

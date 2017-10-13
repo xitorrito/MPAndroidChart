@@ -100,6 +100,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
     protected boolean mClipValuesToContent = false;
 
+    protected boolean alwaysShowMarkers = false;
+
     /**
      * Sets the minimum offset (padding) around the chart, defaults to 15
      */
@@ -1220,6 +1222,10 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
      */
     public boolean isDrawBordersEnabled() {
         return mDrawBorders;
+    }
+
+    public boolean isAlwaysShowMarkers(){
+        return alwaysShowMarkers;
     }
 
     /**
