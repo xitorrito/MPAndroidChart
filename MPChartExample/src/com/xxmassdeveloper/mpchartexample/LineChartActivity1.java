@@ -1,18 +1,15 @@
 
 package com.xxmassdeveloper.mpchartexample;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -74,19 +71,25 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         List<Entry> entries2 = new ArrayList<>();
 
-        entries2.add(new Entry(3, 50, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+
+        entries2.add(new Entry(3, 100, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true)));
-        entries2.add(new Entry(4, 250, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+        final Highlight h1 = new Highlight(4f, 250f,1);
+        entries2.add(new Entry(3.5f, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+                R.drawable.marker_big), 50, 50, true)));
+        final Highlight h2 = new Highlight(2.5f, 150f,1);
+        entries2.add(new Entry(4, 200, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true)));
         entries2.add(new Entry(5, 250, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true)));
-        entries2.add(new Entry(6, 160, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker_big), 50, 50, true)));
-        entries2.add(new Entry(7, 200, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+        final Highlight h3 = new Highlight(6f, 160f,1);
+        entries2.add(new Entry(6, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true)));
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         LineDataSet dataSet2 = new LineDataSet(entries2, "Label"); // add entries to dataset
         dataSet2.setDrawValues(true);
+        dataSet2.setDrawHorizontalHighlightIndicator(false);
+        dataSet2.setDrawVerticalHighlightIndicator(false);
         dataSet.setDrawFilled(true);
         dataSet.setFillAlpha(255);
         dataSet.setFillColor(ContextCompat.getColor(this, R.color.aqua_blue));
@@ -95,11 +98,10 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         dataSet.setDrawHorizontalHighlightIndicator(false);
         dataSet.setDrawVerticalHighlightIndicator(false);
         LineData data = new LineData(dataSet, dataSet2);
-
         graph.setData(data);
         graph.getData().setHighlightEnabled(true);
         graph.setPinchZoom(false);
-        graph.setDoubleTapToZoomEnabled(true);
+        graph.setDoubleTapToZoomEnabled(false);
         graph.getAxisLeft().setDrawGridLines(false);
         graph.getAxisRight().setDrawGridLines(false);
         graph.getXAxis().setDrawGridLines(false);
@@ -116,7 +118,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         graph.setDrawBorders(false);
         graph.setViewPortOffsets(0f, 0f, 0f, 0f);
         graph.setDrawMarkers(true);
-        graph.setTouchEnabled(true);
+        graph.setTouchEnabled(false);
+        graph.setAlwaysShowMarkers(true);
         MyMarker mv = new MyMarker(this, R.layout.my_marker);
         mv.setChartView(graph);
         graph.setMarker(mv);
@@ -127,6 +130,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
             @Override
             public void run() {
                 graph.invalidate();
+                graph.highlightValues(new Highlight[] {h1, h2, h3});
+
             }
         });
 

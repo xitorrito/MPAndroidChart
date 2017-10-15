@@ -155,11 +155,11 @@ public abstract class DataRenderer extends Renderer {
      */
     public void drawValue(Canvas c, IValueFormatter formatter, float value, Entry entry, int dataSetIndex, float x, float y, int color) {
         mValuePaint.setColor(color);
-        Log.e("xy", "x " + x + " y " + y);
-        if (entry.getBitmap() != null) {
-
-            c.drawBitmap(entry.getBitmap(), c.getWidth()-(c.getWidth()-100), 300, mValuePaint);
-        }
+//        Log.e("xy", "x " + x + " y " + y);
+//        if (entry.getBitmap() != null) {
+//
+//            c.drawBitmap(entry.getBitmap(), c.getWidth()-(c.getWidth()-100), 300, mValuePaint);
+//        }
         c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y, mValuePaint);
     }
 

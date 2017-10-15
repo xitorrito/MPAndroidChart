@@ -176,6 +176,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             mExtraRightOffset = 0.f,
             mExtraBottomOffset = 0.f,
             mExtraLeftOffset = 0.f;
+    private boolean mAlwaysDrawMarkers = false;
 
     /**
      * default constructor for initialization in code
@@ -721,24 +722,28 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * draws all MarkerViews on the highlighted positions
      */
     protected void drawMarkers(Canvas canvas) {
-        if()
+
+        if (mMarker!=null && isAlwaysDrawMarkers()) {
+//            for (IDataSet<? extends Entry> set : mData.getDataSets()) {
+//
+//            }
+        }
+
         // if there is no marker view or drawing marker is disabled
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
             return;
 
+
         for (int i = 0; i < mIndicesToHighlight.length; i++) {
 
             Highlight highlight = mIndicesToHighlight[i];
-
             IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
-
             Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
             int entryIndex = set.getEntryIndex(e);
 
             // make sure entry not null
             if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
                 continue;
-
             float[] pos = getMarkerPosition(highlight);
 
             // check bounds
@@ -751,7 +756,13 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             // draw the marker
             mMarker.draw(canvas, pos[0], pos[1]);
         }
+
     }
+
+    private boolean isAlwaysDrawMarkers() {
+        return mAlwaysDrawMarkers;
+    }
+
 
     /**
      * Returns the actual position in pixels of the MarkerView for the given
@@ -888,7 +899,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * @param easingX         a predefined easing option
      * @param easingY         a predefined easing option
      */
-    public void animateXY(int durationMillisX, int durationMillisY, Easing.EasingOption easingX,
+    public void animateXY(int durationMillisX, int durationMillisY, Easing.
+            EasingOption easingX,
                           Easing.EasingOption easingY) {
         mAnimator.animateXY(durationMillisX, durationMillisY, easingX, easingY);
     }
@@ -1397,6 +1409,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         mDrawMarkers = enabled;
     }
 
+    public void setAlwaysShowMarkers(boolean enabled) {
+        mAlwaysDrawMarkers = enabled;
+    }
+
     /**
      * Returns the ChartData object that has been set for the chart.
      *
@@ -1532,8 +1548,9 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * @param quality         e.g. 50, min = 0, max = 100
      * @return returns true if saving was successful, false if not
      */
-    public boolean saveToGallery(String fileName, String subFolderPath, String fileDescription, Bitmap.CompressFormat
-            format, int quality) {
+    public boolean saveToGallery(String fileName, String subFolderPath, String
+            fileDescription, Bitmap.CompressFormat
+                                         format, int quality) {
         // restrain quality
         if (quality < 0 || quality > 100)
             quality = 50;
