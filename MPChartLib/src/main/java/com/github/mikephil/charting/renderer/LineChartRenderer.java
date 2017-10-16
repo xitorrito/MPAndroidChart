@@ -295,7 +295,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         int entryCount = dataSet.getEntryCount();
 
         final boolean isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled();
-        final int pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2;
+        final int  pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2;
 
         Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
 
@@ -569,6 +569,11 @@ public class LineChartRenderer extends LineRadarRenderer {
 
                     if (dataSet.isDrawValuesEnabled()) {
                         drawValue(c, dataSet.getValueFormatter(), entry.getY(), entry, i, x,
+                                y - valOffset, dataSet.getValueTextColor(j / 2));
+                    }
+
+                    if (dataSet.isDrawValuesWithLine()) {
+                        drawValueWithLine(c, dataSet.getValueFormatter(), entry.getY(), entry, i, x,
                                 y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
 

@@ -406,6 +406,11 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mFillFormatter;
     }
 
+    @Override
+    public boolean isDrawValuesWithLine() {
+        return false;
+    }
+
     public enum Mode {
         LINEAR,
         STEPPED,

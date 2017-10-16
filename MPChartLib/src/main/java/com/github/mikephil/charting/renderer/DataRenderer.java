@@ -162,6 +162,13 @@ public abstract class DataRenderer extends Renderer {
 //        }
         c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y, mValuePaint);
     }
+    public void drawValueWithLine(Canvas c, IValueFormatter formatter, float value, Entry entry, int dataSetIndex, float x, float y, int color) {
+        mValuePaint.setColor(color);
+        Paint linePaint = new Paint();
+        linePaint.setColor(Color.WHITE);
+        c.drawLine(x, y, x+1, y+10, linePaint);
+        c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y, mValuePaint);
+    }
 
     /**
      * Draws any kind of additional information (e.g. line-circles).

@@ -73,10 +73,11 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         final List<Entry> entries2 = new ArrayList<>();
 
-        final Entry entry = new Entry(3, 100, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+        final Entry entry = new Entry(4.5f, 100, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true));
         entries2.add(entry);
-        final Highlight h1 = new Highlight(4f, 250f, 1);
+        final Highlight h1 = new Highlight(4.5f, 150f, 1);
+        final Highlight h2 = new Highlight(5, 150f, 1);
         Timer t = new Timer();
         t.scheduleAtFixedRate(
                 new TimerTask() {
@@ -94,7 +95,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
                 }, 0, 200);
         entries2.add(new Entry(3.5f, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true)));
-        final Highlight h2 = new Highlight(2.5f, 150f, 1);
+
         entries2.add(new Entry(4, 200, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true)));
         entries2.add(new Entry(5, 250, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
@@ -135,10 +136,11 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         graph.setDrawGridBackground(false);
         graph.setDescription(null);
         graph.setDrawBorders(false);
-        graph.setViewPortOffsets(0f, 0f, 0f, 0f);
+        graph.setViewPortOffsets(0f, 200f, 0f, 0f);
         graph.setDrawMarkers(true);
         graph.setTouchEnabled(false);
         graph.setAlwaysShowMarkers(true);
+        graph.setShowValuesWithLine(true);
         MyMarker mv = new MyMarker(this, R.layout.my_marker);
         mv.setChartView(graph);
         graph.setMarker(mv);

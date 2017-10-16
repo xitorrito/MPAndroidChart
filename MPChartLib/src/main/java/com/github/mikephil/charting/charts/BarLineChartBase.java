@@ -134,6 +134,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     protected Transformer mRightAxisTransformer;
 
     protected XAxisRenderer mXAxisRenderer;
+    private boolean showValuesWithLine;
 
     // /** the approximator object used for data filtering */
     // private Approximator mApproximator;
@@ -1224,13 +1225,13 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         return mDrawBorders;
     }
 
-    public boolean isAlwaysShowMarkers(){
+    public boolean isAlwaysShowMarkers() {
         return alwaysShowMarkers;
     }
 
     /**
      * When enabled, the values will be clipped to contentRect,
-     *   otherwise they can bleed outside the content rect.
+     * otherwise they can bleed outside the content rect.
      *
      * @param enabled
      */
@@ -1240,7 +1241,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
     /**
      * When enabled, the values will be clipped to contentRect,
-     *   otherwise they can bleed outside the content rect.
+     * otherwise they can bleed outside the content rect.
      *
      * @return
      */
@@ -1653,5 +1654,13 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         } else {
             mViewPortHandler.refresh(mViewPortHandler.getMatrixTouch(), this, true);
         }
+    }
+
+    public void setShowValuesWithLine(boolean b) {
+        this.showValuesWithLine = b;
+    }
+
+    public boolean isShowValuesWithLine() {
+        return showValuesWithLine;
     }
 }
