@@ -445,6 +445,7 @@ public interface IDataSet<T extends Entry> {
      * @param enabled
      */
     void setDrawIcons(boolean enabled);
+    void setDrawValuesWithLine(boolean enabled);
 
     /**
      * Returns true if y-icon drawing is enabled, false if not
@@ -452,7 +453,6 @@ public interface IDataSet<T extends Entry> {
      * @return
      */
     boolean isDrawIconsEnabled();
-
     /**
      * Offset of icons drawn on the chart.
      *

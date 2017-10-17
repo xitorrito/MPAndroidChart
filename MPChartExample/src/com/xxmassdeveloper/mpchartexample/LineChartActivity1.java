@@ -28,12 +28,11 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.xxmassdeveloper.mpchartexample.custom.MyMarker;
+import com.xxmassdeveloper.mpchartexample.custom.MyValueFormatter;
 import com.xxmassdeveloper.mpchartexample.notimportant.DemoBase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListener,
         OnChartGestureListener, OnChartValueSelectedListener {
@@ -65,59 +64,62 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         final List<Entry> entries = new ArrayList<>();
 
-        entries.add(new Entry(3, 100));
+        entries.add(new Entry(3, 170));
         entries.add(new Entry(4, 200));
-        entries.add(new Entry(5, 250));
-        entries.add(new Entry(6, 150));
-        entries.add(new Entry(7, 200));
+        entries.add(new Entry(5, 170));
+        entries.add(new Entry(6, 200));
+        entries.add(new Entry(7, 210));
 
         final List<Entry> entries2 = new ArrayList<>();
 
         final Entry entry = new Entry(4.5f, 100, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
                 R.drawable.marker_big), 50, 50, true));
         entries2.add(entry);
-        final Highlight h1 = new Highlight(4.5f, 150f, 1);
-        final Highlight h2 = new Highlight(5, 150f, 1);
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                entry.setY(entry.getY() + 1);
-                                graph.invalidate();
-                            }
-                        });
-                    }
-
-                }, 0, 200);
-        entries2.add(new Entry(3.5f, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker_big), 50, 50, true)));
-
-        entries2.add(new Entry(4, 200, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker_big), 50, 50, true)));
-        entries2.add(new Entry(5, 250, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker_big), 50, 50, true)));
-        final Highlight h3 = new Highlight(6f, 160f, 1);
-        entries2.add(new Entry(6, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker_big), 50, 50, true)));
+//        final Highlight h1 = new Highlight(4.5f, 150f, 1);
+//        final Highlight h2 = new Highlight(5, 150f, 1);
+////        Timer t = new Timer();
+////        t.scheduleAtFixedRate(
+////                new TimerTask() {
+////                    @Override
+////                    public void run() {
+////                        runOnUiThread(new Runnable() {
+////                            @Override
+////                            public void run() {
+////                                entry.setY(entry.getY() + 1);
+////                                graph.invalidate();
+////                            }
+////                        });
+////                    }
+////
+////                }, 0, 200);
+//        entries2.add(new Entry(3.5f, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+//                R.drawable.marker_big), 50, 50, true)));
+//
+//        entries2.add(new Entry(4, 200, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+//                R.drawable.marker_big), 50, 50, true)));
+//        entries2.add(new Entry(5, 250, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+//                R.drawable.marker_big), 50, 50, true)));
+//        final Highlight h3 = new Highlight(6f, 160f, 1);
+//        entries2.add(new Entry(6, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+//                R.drawable.marker_big), 50, 50, true)));
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-        LineDataSet dataSet2 = new LineDataSet(entries2, "Label"); // add entries to dataset
-        dataSet2.setDrawValues(true);
-        dataSet2.setColor(Color.TRANSPARENT);
-        dataSet2.setDrawCircles(false);
-        dataSet2.setDrawHorizontalHighlightIndicator(false);
-        dataSet2.setDrawVerticalHighlightIndicator(false);
+//        LineDataSet dataSet2 = new LineDataSet(entries2, "Label"); // add entries to dataset
+//        dataSet2.setDrawValues(false);
+//        dataSet2.setColor(Color.TRANSPARENT);
+//        dataSet2.setDrawCircles(false);
+//        dataSet2.setDrawHorizontalHighlightIndicator(false);
+//        dataSet2.setDrawVerticalHighlightIndicator(false);
         dataSet.setDrawFilled(true);
         dataSet.setFillAlpha(255);
         dataSet.setFillColor(ContextCompat.getColor(this, R.color.aqua_blue));
-        dataSet.setDrawValues(true);
         dataSet.setValueTextColor(Color.WHITE);
         dataSet.setDrawHorizontalHighlightIndicator(false);
         dataSet.setDrawVerticalHighlightIndicator(false);
-        LineData data = new LineData(dataSet, dataSet2);
+        dataSet.setValueTextSize(11);
+        dataSet.setDrawValues(true);
+        dataSet.setValueFormatter(new MyValueFormatter());
+
+        LineData data = new LineData(dataSet);
         graph.setData(data);
         graph.getData().setHighlightEnabled(true);
         graph.setPinchZoom(false);
@@ -137,21 +139,20 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         graph.setDescription(null);
         graph.setDrawBorders(false);
         graph.setViewPortOffsets(0f, 200f, 0f, 0f);
-        graph.setDrawMarkers(true);
+        graph.setDrawMarkers(false);
         graph.setTouchEnabled(false);
-        graph.setAlwaysShowMarkers(true);
-        graph.setShowValuesWithLine(true);
+        graph.setAlwaysShowMarkers(false);
         MyMarker mv = new MyMarker(this, R.layout.my_marker);
         mv.setChartView(graph);
         graph.setMarker(mv);
-        for (IDataSet set : graph.getData().getDataSets()) {
-            set.setDrawValues(true);
-        }
+//        for (IDataSet set : graph.getData().getDataSets()) {
+//            set.setDrawValues(true);
+//        }
         graph.post(new Runnable() {
             @Override
             public void run() {
                 graph.invalidate();
-                graph.highlightValues(new Highlight[]{h1, h2, h3});
+//                graph.highlightValues(new Highlight[]{h1, h2, h3});
 
             }
         });

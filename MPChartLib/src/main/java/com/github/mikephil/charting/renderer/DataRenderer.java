@@ -8,7 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.util.Log;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.data.Entry;
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -155,19 +157,24 @@ public abstract class DataRenderer extends Renderer {
      */
     public void drawValue(Canvas c, IValueFormatter formatter, float value, Entry entry, int dataSetIndex, float x, float y, int color) {
         mValuePaint.setColor(color);
-//        Log.e("xy", "x " + x + " y " + y);
-//        if (entry.getBitmap() != null) {
-//
-//            c.drawBitmap(entry.getBitmap(), c.getWidth()-(c.getWidth()-100), 300, mValuePaint);
-//        }
-        c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y, mValuePaint);
-    }
-    public void drawValueWithLine(Canvas c, IValueFormatter formatter, float value, Entry entry, int dataSetIndex, float x, float y, int color) {
-        mValuePaint.setColor(color);
         Paint linePaint = new Paint();
+        linePaint.setStrokeWidth(1);
         linePaint.setColor(Color.WHITE);
-        c.drawLine(x, y, x+1, y+10, linePaint);
-        c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y, mValuePaint);
+        c.drawLine(x, y, x, y - 80, linePaint);
+//        c.save();
+//        c.translate(0, 0);
+        String text = formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler);
+        mValuePaint.getTextBounds(text, 0, text.length(), new Rect());
+        mValuePaint.setTextAlign(Align.CENTER);
+//        c.rotate(0);
+//        mValuePaint.setColor(Color.WHITE);
+//        c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y - 100, mValuePaint);
+//        c.restore();
+        mDrawPaint.setTextSize(mValuePaint.getTextSize());
+        mDrawPaint.setColor(Color.WHITE);
+        mDrawPaint.setTextAlign(Paint.Align.CENTER);
+        mDrawPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+        Utils.drawXAxisValue(c,text,x,y-185,mDrawPaint, MPPointF.getInstance(),-45);
     }
 
     /**

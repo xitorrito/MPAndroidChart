@@ -572,15 +572,6 @@ public class LineChartRenderer extends LineRadarRenderer {
                                 y - valOffset, dataSet.getValueTextColor(j / 2));
                     }
 
-                    if (dataSet.isDrawValuesWithLine()) {
-                        drawValueWithLine(c, dataSet.getValueFormatter(), entry.getY(), entry, i, x,
-                                y - valOffset, dataSet.getValueTextColor(j / 2));
-                    }
-
-//                    if(dataSet.getPersistentMarkers()!=null){
-//                        drawPersistentMarkers(c, entry.getY(), entry, i, x, y -valOffset);
-//                    }
-
                     if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
 
                         Drawable icon = entry.getIcon();

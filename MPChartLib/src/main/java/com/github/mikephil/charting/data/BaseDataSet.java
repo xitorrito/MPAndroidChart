@@ -90,6 +90,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      * flag that indicates if the DataSet is visible or not
      */
     protected boolean mVisible = true;
+    private boolean mDrawValuesWithLine;
 
     /**
      * Default constructor.
@@ -385,6 +386,11 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     @Override
+    public void setDrawValuesWithLine(boolean drawValuesWithLine) {
+        mDrawValuesWithLine = drawValuesWithLine;
+    }
+
+    @Override
     public void setDrawIcons(boolean enabled) {
         mDrawIcons = enabled;
     }
@@ -488,4 +494,5 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
         return false;
     }
+
 }

@@ -64,6 +64,8 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     private boolean mDrawCircleHole = true;
 
+    private boolean mDrawValuesWithLine = false;
+
 
     public LineDataSet(List<Entry> yVals, String label) {
         super(yVals, label);
@@ -406,10 +408,6 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mFillFormatter;
     }
 
-    @Override
-    public boolean isDrawValuesWithLine() {
-        return false;
-    }
 
     public enum Mode {
         LINEAR,
