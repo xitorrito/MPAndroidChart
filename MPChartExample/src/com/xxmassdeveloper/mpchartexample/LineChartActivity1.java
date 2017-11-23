@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.IMarker;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -66,17 +68,16 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         entries.add(new Entry(3, 170));
         entries.add(new Entry(4, 200));
-        entries.add(new Entry(5, 170));
-        entries.add(new Entry(6, 200));
-        entries.add(new Entry(7, 210));
+//        entries.add(new Entry(5, 170));
+//        entries.add(new Entry(6, 200));
+
 
         final List<Entry> entries2 = new ArrayList<>();
-
-        final Entry entry = new Entry(4.5f, 100, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker_big), 50, 50, true));
-        entries2.add(entry);
-//        final Highlight h1 = new Highlight(4.5f, 150f, 1);
-//        final Highlight h2 = new Highlight(5, 150f, 1);
+//
+        entries2.add(new Entry(4.5f, 100, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
+                R.drawable.marker_big), 50, 50, true)));
+        final Highlight h1 = new Highlight(4.5f, 150f, 1);
+        final Highlight h2 = new Highlight(5, 150f, 1);
 ////        Timer t = new Timer();
 ////        t.scheduleAtFixedRate(
 ////                new TimerTask() {
@@ -103,7 +104,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 //        entries2.add(new Entry(6, 150, Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
 //                R.drawable.marker_big), 50, 50, true)));
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-//        LineDataSet dataSet2 = new LineDataSet(entries2, "Label"); // add entries to dataset
+        LineDataSet dataSet2 = new LineDataSet(entries2, "Label"); // add entries to dataset
 //        dataSet2.setDrawValues(false);
 //        dataSet2.setColor(Color.TRANSPARENT);
 //        dataSet2.setDrawCircles(false);
@@ -119,7 +120,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         dataSet.setDrawValues(true);
         dataSet.setValueFormatter(new MyValueFormatter());
 
-        LineData data = new LineData(dataSet);
+        LineData data = new LineData(dataSet, dataSet2);
         graph.setData(data);
         graph.getData().setHighlightEnabled(true);
         graph.setPinchZoom(false);
@@ -139,20 +140,25 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         graph.setDescription(null);
         graph.setDrawBorders(false);
         graph.setViewPortOffsets(0f, 200f, 0f, 0f);
-        graph.setDrawMarkers(false);
+        graph.setDrawMarkers(true);
         graph.setTouchEnabled(false);
-        graph.setAlwaysShowMarkers(false);
+        ArrayList<IMarker> markers = new ArrayList<>();
         MyMarker mv = new MyMarker(this, R.layout.my_marker);
+        MyMarker mv2 = new MyMarker(this, R.layout.my_marker2);
+        markers.add(mv);
+        markers.add(mv2);
         mv.setChartView(graph);
         graph.setMarker(mv);
+        graph.setMarkersArray(markers);
 //        for (IDataSet set : graph.getData().getDataSets()) {
 //            set.setDrawValues(true);
 //        }
+
         graph.post(new Runnable() {
             @Override
             public void run() {
                 graph.invalidate();
-//                graph.highlightValues(new Highlight[]{h1, h2, h3});
+                graph.highlightValues(new Highlight[]{h1, h2});
 
             }
         });

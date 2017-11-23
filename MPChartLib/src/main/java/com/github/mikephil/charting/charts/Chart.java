@@ -718,43 +718,75 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      */
     protected IMarker mMarker;
 
+    protected ArrayList<IMarker> mMarkers;
+
     /**
      * draws all MarkerViews on the highlighted positions
      */
     protected void drawMarkers(Canvas canvas) {
 
-        if (mMarker!=null && isAlwaysDrawMarkers()) {
+        if (mMarker != null && isAlwaysDrawMarkers()) {
 //            for (IDataSet<? extends Entry> set : mData.getDataSets()) {
 //
 //            }
         }
 
-        // if there is no marker view or drawing marker is disabled
-        if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
-            return;
+        if (mMarkers != null) {
+
+            for (int i = 0; i < mIndicesToHighlight.length; i++) {
+
+                Highlight highlight = mIndicesToHighlight[i];
+                IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
+                Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+                int entryIndex = set.getEntryIndex(e);
+
+                // make sure entry not null
+                if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
+                    continue;
+                float[] pos = getMarkerPosition(highlight);
+
+                // check bounds
+                if (!mViewPortHandler.isInBounds(pos[0], pos[1]))
+                    continue;
+
+                // callbacks to update the content
+                mMarkers.get(i).refreshContent(e, highlight);
+//                mMarker.refreshContent(e, highlight);
+
+                // draw the marker
+                mMarkers.get(i).draw(canvas, pos[0], pos[1]);
+            }
 
 
-        for (int i = 0; i < mIndicesToHighlight.length; i++) {
+            // if there is no marker view or drawing marker is disabled
 
-            Highlight highlight = mIndicesToHighlight[i];
-            IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
-            Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
-            int entryIndex = set.getEntryIndex(e);
 
-            // make sure entry not null
-            if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
-                continue;
-            float[] pos = getMarkerPosition(highlight);
+        } else {
+            if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
+                return;
 
-            // check bounds
-            if (!mViewPortHandler.isInBounds(pos[0], pos[1]))
-                continue;
+            for (int i = 0; i < mIndicesToHighlight.length; i++) {
 
-            // callbacks to update the content
-            mMarker.refreshContent(e, highlight);
+                Highlight highlight = mIndicesToHighlight[i];
+                IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
+                Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+                int entryIndex = set.getEntryIndex(e);
 
-            // draw the marker
-            mMarker.draw(canvas, pos[0], pos[1]);
+                // make sure entry not null
+                if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
+                    continue;
+                float[] pos = getMarkerPosition(highlight);
+
+                // check bounds
+                if (!mViewPortHandler.isInBounds(pos[0], pos[1]))
+                    continue;
+
+                // callbacks to update the content
+                mMarker.refreshContent(e, highlight);
+
+                // draw the marker
+                mMarker.draw(canvas, pos[0], pos[1]);
+            }
         }
 
     }
@@ -1222,6 +1254,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         mMarker = marker;
     }
 
+    public void setMarkersArray(ArrayList<IMarker> markers) {
+        mMarkers = markers;
+    }
+
     /**
      * returns the marker that is set as a marker view for the chart
      *
@@ -1229,6 +1265,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      */
     public IMarker getMarker() {
         return mMarker;
+    }
+
+    public ArrayList<IMarker> getMarkers() {
+        return mMarkers;
     }
 
     @Deprecated
